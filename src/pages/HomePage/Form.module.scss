@@ -1,0 +1,9 @@
+@import "../../styles/globals.scss";
+
+form {
+  .error {
+    font-weight: 600;
+    font-size: 14px;
+    color: $error_color;
+  }
+}

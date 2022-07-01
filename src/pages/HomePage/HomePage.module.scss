@@ -1,20 +1,13 @@
 @import "../../styles/globals.scss";
 
 .container {
-  padding: 80px 24px 24px 24px;
+  padding: 64px 24px 24px 24px;
 
-  &_hero {
-    margin-bottom: 48px;
-
-    h1 {
-      font-weight: 600;
-      font-size: 24px;
-      color: $black;
-    }
-    p {
-      font-weight: 300;
-      letter-spacing: 0.05em;
-      color: $gray;
-    }
+  hr {
+    height: 0px;
+    margin-top: 32px;
+    margin-bottom: 24px;
+    border: none;
+    border-top: 1px solid #e8e8e8;
   }
 }
