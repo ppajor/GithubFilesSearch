@@ -2,30 +2,20 @@
 import { ChangeEvent } from "react";
 import styles from "./CustomInput.module.scss";
 
-type Props = {
+interface Props {
   name: string;
   label: string;
-  placeholder: string;
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
-  error?: boolean;
+  placeholder?: string;
   select?: boolean;
   options?: Array<{
     name: string;
     value: string;
   }> | null;
-};
+}
 
-function CustomInput({
-  label,
-  name,
-  placeholder,
-  value,
-  onChange,
-  error = false,
-  select = false,
-  options = null,
-}: Props) {
+function CustomInput({ label, name, value, onChange, placeholder, select = false, options = null }: Props) {
   return (
     <div className={styles.container}>
       <label>{label}</label>
@@ -38,14 +28,7 @@ function CustomInput({
           ))}
         </select>
       ) : (
-        <input
-          className={`${error && styles.error}`}
-          name={name}
-          placeholder={placeholder}
-          value={value}
-          onChange={(e) => onChange(e)}
-          required
-        />
+        <input name={name} placeholder={placeholder} value={value} onChange={(e) => onChange(e)} required />
       )}
     </div>
   );

@@ -21,3 +21,8 @@ input,
 select {
   font-family: $font_stack;
 }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

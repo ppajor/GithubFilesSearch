@@ -1,22 +1,16 @@
 import React, { ChangeEvent, useState } from "react";
-import { produce } from "immer";
 import CustomButton from "../../components/CustomButton";
 import CustomInput from "../../components/CustomInput";
-import styles from "./Form.module.scss";
 
-type State = {
-  phrase: {
-    value: string;
-    error: boolean;
-  };
-  user: {
-    value: string;
-    error: boolean;
-  };
-  language: {
-    value: string;
-  };
-};
+interface Props {
+  onValidation: (form_phrase: string, form_user: string, form_language: string) => void;
+}
+
+interface State {
+  phrase: string;
+  user: string;
+  language: string;
+}
 
 const options = [
   { name: "go", value: "go" },
@@ -24,78 +18,52 @@ const options = [
   { name: "javascript", value: "javascript" },
 ];
 
+const params = new URLSearchParams(window.location.search);
+
 const initialInputsValue = {
-  phrase: { value: "", error: false },
-  user: {
-    value: "",
-    error: false,
-  },
-  language: {
-    value: options[0].value,
-  },
+  phrase: params.get("phrase") || "",
+  user: params.get("user") || "",
+  language: params.get("language") || options[0].value,
 };
 
-function Form() {
+function Form({ onValidation }: Props) {
   const [inputsValue, setInputsValue] = useState<State>(initialInputsValue);
-  const [formError, setFormError] = useState<string | null>(null);
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setInputsValue({ ...inputsValue, [e.target.name]: { value: e.target.value, error: false } });
+    setInputsValue({ ...inputsValue, [e.target.name]: e.target.value });
   };
 
-  const handleOnClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    formValidation();
-  };
 
-  const formValidation = () => {
-    if (inputsValue.phrase.value === "" || inputsValue.user.value === "") {
-      setFormError("Text field cannot be empty");
-      //jesli któryś input pusty zaznaczamy error na true
-      if (!inputsValue.phrase.value)
-        setInputsValue(
-          produce((draft) => {
-            draft.phrase.error = true;
-          })
-        );
-      if (!inputsValue.user.value)
-        setInputsValue(
-          produce((draft) => {
-            draft.user.error = true;
-          })
-        );
-    } else if (formError) setFormError(null);
+    onValidation(inputsValue.phrase, inputsValue.user, inputsValue.language);
   };
 
   return (
-    <form>
+    <form onSubmit={(e) => handleOnSubmit(e)}>
       <CustomInput
         name="phrase"
         label="phrase"
-        value={inputsValue.phrase.value}
+        value={inputsValue.phrase}
         placeholder="search phrase..."
-        error={inputsValue.phrase.error}
         onChange={(e) => handleOnChange(e)}
       />
       <CustomInput
         name="user"
         label="user"
-        value={inputsValue.user.value}
+        value={inputsValue.user}
         placeholder="search user..."
-        error={inputsValue.user.error}
         onChange={(e) => handleOnChange(e)}
       />
       <CustomInput
         name="language"
         label="programming language"
-        placeholder="select language"
-        value={inputsValue.language.value}
+        value={inputsValue.language}
         select={true}
         options={options}
         onChange={(e) => handleOnChange(e)}
       />
-      {formError ? <p className={styles.error}>{formError}</p> : null}
-      <CustomButton value="Search file" onClick={(e) => handleOnClick(e)} />
+      <CustomButton value="Search file" />
     </form>
   );
 }

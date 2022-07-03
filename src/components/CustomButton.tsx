@@ -1,13 +1,16 @@
-import React from "react";
-import "./CustomButton.module.scss";
+//import React from "react";
+import styles from "./CustomButton.module.scss";
 
-type Props = {
+interface Props {
   value: string;
-  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-};
+}
 
-function CustomButton({ onClick, value }: Props) {
-  return <button onClick={(e) => onClick(e)}>{value}</button>;
+function CustomButton({ value }: Props) {
+  return (
+    <button className={styles.btn} type="submit">
+      {value}
+    </button>
+  );
 }
 
 export default CustomButton;

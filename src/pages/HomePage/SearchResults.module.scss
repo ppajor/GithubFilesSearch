@@ -1,0 +1,58 @@
+@import "../../styles/globals.scss";
+
+.container {
+  &_card {
+    margin-bottom: 24px;
+    padding: 24px 24px 32px 24px;
+    background: #ffffff;
+    box-shadow: 0px 0px 4px rgba(172, 172, 172, 0.25);
+    border-radius: 4px;
+
+    &_topBar {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 32px;
+
+      h2 {
+        margin: 0;
+        font-weight: 600;
+        font-size: 16px;
+        color: $black;
+      }
+
+      &_user {
+        display: flex;
+        gap: 8px;
+        font-weight: 200;
+        font-size: 14px;
+        color: $light_gray;
+
+        img {
+          width: 24px;
+          height: 24px;
+          border-radius: 24px;
+        }
+      }
+    }
+
+    &_body {
+      margin-bottom: 24px;
+
+      &_name {
+        font-weight: 400;
+        color: $gray;
+      }
+      &_description {
+        font-weight: 300;
+        color: $light_gray;
+      }
+    }
+
+    &_bottomBar {
+      display: flex;
+      justify-content: flex-end;
+      color: $black;
+    }
+  }
+}
