@@ -1,45 +1,38 @@
 import "./Form.module.scss";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent } from "react";
 import CustomButton from "../../components/CustomButton";
 import CustomInput from "../../components/CustomInput";
 import ErrorMessage from "../../components/ErrorMessage";
 
 interface Props {
   error: string | null;
-  onValidation: (form_phrase: string, form_user: string, form_language: string) => void;
+  inputsValue: Inputs;
+  onValidation: () => void;
+  options: Option[];
+  setInputsValue: React.Dispatch<React.SetStateAction<Inputs>>;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
-interface State {
+interface Option {
+  name: string;
+  value: string;
+}
+
+interface Inputs {
   phrase: string;
   user: string;
   language: string;
 }
 
-const options = [
-  { name: "go", value: "go" },
-  { name: "java", value: "java" },
-  { name: "javascript", value: "javascript" },
-];
-
-const params = new URLSearchParams(window.location.search);
-
-const initialInputsValue = {
-  phrase: params.get("phrase") || "",
-  user: params.get("user") || "",
-  language: params.get("language") || options[0].value,
-};
-
-function Form({ error, onValidation }: Props) {
-  const [inputsValue, setInputsValue] = useState<State>(initialInputsValue);
-
+function Form({ error, inputsValue, onValidation, options, setInputsValue, setCurrentPage }: Props) {
   const handleOnChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setInputsValue({ ...inputsValue, [e.target.name]: e.target.value });
   };
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    onValidation(inputsValue.phrase, inputsValue.user, inputsValue.language);
+    setCurrentPage(1);
+    onValidation();
   };
 
   return (

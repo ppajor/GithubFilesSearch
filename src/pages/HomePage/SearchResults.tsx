@@ -12,10 +12,7 @@ interface Item {
 
 interface Props {
   setModalAvatarPath: (url: string) => void;
-  apiData: {
-    resultsCount: number;
-    items: Item[];
-  };
+  apiData: Item[];
 }
 
 function SearchResults({ apiData, setModalAvatarPath }: Props) {
@@ -33,8 +30,8 @@ function SearchResults({ apiData, setModalAvatarPath }: Props) {
     setWindowWidth(window.innerWidth);
   };
   //let rowsCount = apiData.resultsCount;
-  let rows = apiData.items;
-  const { avatar, name } = apiData.items[0].user;
+  let rows = apiData;
+  const { avatar, name } = apiData[0].user;
 
   const handleUserClick = (avatarPath: string) => {
     setModalAvatarPath(avatarPath);
@@ -61,7 +58,7 @@ function SearchResults({ apiData, setModalAvatarPath }: Props) {
                 {el.repo.description ? el.repo.description : "No description"}
               </td>
               <td className={styles.container_userFiles_username} onClick={() => handleUserClick(avatar)}>
-                {el.user.name}
+                <img src={el.user.avatar} alt="avatar" /> <span>{el.user.name}</span>
               </td>
             </tr>
           ))}

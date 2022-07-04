@@ -1,0 +1,25 @@
+@import "../styles/globals.scss";
+
+.container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+
+  ul {
+    display: flex;
+    gap: 8px;
+    list-style: none;
+
+    li {
+      color: $light_gray;
+
+      &:hover {
+        color: $black;
+      }
+    }
+  }
+
+  .active {
+    color: $black;
+  }
+}

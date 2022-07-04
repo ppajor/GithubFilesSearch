@@ -7,6 +7,14 @@
 .container {
   width: 100%;
   //MOBILE
+
+  img {
+    width: 24px;
+    height: 24px;
+
+    border-radius: 24px;
+  }
+
   &_userFiles {
     display: flex;
     gap: 8px;
@@ -19,13 +27,6 @@
     &_username {
       font-weight: 400;
       color: $gray;
-    }
-
-    img {
-      width: 24px;
-      height: 24px;
-
-      border-radius: 24px;
     }
   }
 
