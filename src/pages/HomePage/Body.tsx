@@ -1,10 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
 
-import "./Body.module.scss";
+import styles from "./Body.module.scss";
 import Form from "./Form";
 import SearchResults from "./SearchResults";
-import ErrorMessage from "../../components/ErrorMessage";
+import ImageModal from "../../components/ImageModal";
 
 interface ResultItem {
   html_url: string;
@@ -34,6 +34,7 @@ interface File {
 function Body() {
   const [APIData, setAPIData] = useState<File | null>(null);
   const [APIError, setAPIError] = useState<string | null>(null);
+  const [modalAvatarPath, setModalAvatarPath] = useState<string | null>(null);
 
   const handleOnValidation = (phrase: string, user: string, language: string) => {
     let API_PATH = `https://api.github.com/search/code?q=${phrase}+user:${user}+language:${language}`; //trzeba spacje ogarnac
@@ -59,7 +60,7 @@ function Body() {
         resultsCount: itemsNumber,
         items: filteredData,
       };
-      //  console.log(obj);
+      //console.log(obj);
       setAPIData(obj);
       setAPIError(null);
     } catch (e: any) {
@@ -72,10 +73,21 @@ function Body() {
 
   return (
     <>
-      <Form onValidation={handleOnValidation} />
-      {APIError && <ErrorMessage message={APIError} />}
+      <Form onValidation={handleOnValidation} error={APIError} />
+
       <hr />
-      {APIData && !APIError && <SearchResults apiData={APIData} />}
+
+      {APIData && !APIError && (
+        <>
+          {APIData.resultsCount === 0 ? (
+            <p className={styles.noResults}>Nie znaleziono wyników...</p>
+          ) : (
+            <SearchResults apiData={APIData} setModalAvatarPath={setModalAvatarPath} />
+          )}
+        </>
+      )}
+
+      {modalAvatarPath && <ImageModal img_url={modalAvatarPath} setModalAvatarPath={setModalAvatarPath} />}
     </>
   );
 }

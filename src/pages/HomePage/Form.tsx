@@ -1,8 +1,11 @@
+import "./Form.module.scss";
 import React, { ChangeEvent, useState } from "react";
 import CustomButton from "../../components/CustomButton";
 import CustomInput from "../../components/CustomInput";
+import ErrorMessage from "../../components/ErrorMessage";
 
 interface Props {
+  error: string | null;
   onValidation: (form_phrase: string, form_user: string, form_language: string) => void;
 }
 
@@ -26,7 +29,7 @@ const initialInputsValue = {
   language: params.get("language") || options[0].value,
 };
 
-function Form({ onValidation }: Props) {
+function Form({ error, onValidation }: Props) {
   const [inputsValue, setInputsValue] = useState<State>(initialInputsValue);
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -63,6 +66,8 @@ function Form({ onValidation }: Props) {
         options={options}
         onChange={(e) => handleOnChange(e)}
       />
+
+      {error && <ErrorMessage message={error} />}
       <CustomButton value="Search file" />
     </form>
   );

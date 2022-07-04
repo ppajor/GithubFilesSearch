@@ -1,0 +1,12 @@
+@import "../../styles/globals.scss";
+
+form {
+  position: relative;
+  display: block;
+  width: 100%;
+
+  @include md {
+    width: 40%;
+    margin-left: auto;
+  }
+}

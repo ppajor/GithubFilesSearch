@@ -3,10 +3,18 @@
 .container {
   margin-bottom: 48px;
 
+  @include md {
+    width: 40%;
+  }
+
   h1 {
     font-weight: 600;
     font-size: 24px;
     color: $black;
+
+    @include md {
+      font-size: 32px;
+    }
   }
   p {
     font-weight: 300;

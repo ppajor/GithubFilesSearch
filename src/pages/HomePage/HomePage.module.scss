@@ -1,7 +1,15 @@
 @import "../../styles/globals.scss";
 
 .container {
+  max-width: 1200px;
   padding: 64px 24px 24px 24px;
+  margin: 0 auto;
+
+  @include md {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
 
   hr {
     height: 0px;
