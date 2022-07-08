@@ -1,9 +1,8 @@
-import Hero from "./Hero";
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 import styles from "./HomePage.module.scss";
+import Hero from "./Hero";
 import Form from "./Form";
 import SearchResults from "./SearchResults";
 import ImageModal from "../../components/ImageModal";
@@ -41,12 +40,10 @@ const options = [
   { name: "javascript", value: "javascript" },
 ];
 
-const params = new URLSearchParams(window.location.search);
-
 const initialInputsValue = {
-  phrase: params.get("phrase") || "",
-  user: params.get("user") || "",
-  language: params.get("language") || options[0].value,
+  phrase: "",
+  user: "",
+  language: options[0].value,
 };
 
 function HomePage() {
@@ -58,26 +55,24 @@ function HomePage() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [resultsPerPage] = useState<number>(10);
   const [totalCount, setTotalCount] = useState<number>(0);
-  //const [currentResults, setCurrentResults] = useState<FilteredResult[] | null>(null);
 
-  //let startIndex = resultsPerPage * (currentPage - 1);
-  // let endIndex = resultsPerPage * currentPage;
+  let filtersPath = "filters";
+  console.log(inputsValue);
 
-  // useEffect(() => {
-  //   if (APIData) setCurrentResults(APIData.slice(startIndex, endIndex));
-  // }, [APIData, currentPage]);
-
-  //CURRENT RESULTS VARS
-
-  //console.log(APIData?.length);
+  useEffect(() => {
+    const filters = JSON.parse(localStorage.getItem(filtersPath) || JSON.stringify(initialInputsValue));
+    setInputsValue(filters);
+  }, []);
 
   //API HANDLING
   const handleData = (page = 1) => {
     const { phrase, user, language } = inputsValue;
+    localStorage.setItem(filtersPath, JSON.stringify(inputsValue));
+
     let currentPage = page;
-    // setCurrentPage(page);
     let API_PATH = `https://api.github.com/search/code?q=${phrase}+user:${user}+language:${language}&per_page=${resultsPerPage}&page=${currentPage}`; //trzeba spacje ogarnac
     getAPIData(API_PATH);
+    console.log(API_PATH);
   };
 
   const getAPIData = async (path: string) => {
@@ -85,8 +80,8 @@ function HomePage() {
       const response = await axios.get(path);
       const itemsCount = response.data.total_count;
       const dataItems = response.data.items;
-      //console.log("data items", dataItems);
-      //console.log("cuurent page", currentPage);
+      // console.log("data items", dataItems);
+      // console.log("cuurent page", currentPage);
       let filteredData = dataItems.map((el: ResultItem): FilteredResult => {
         return {
           url: el.html_url,
@@ -99,7 +94,6 @@ function HomePage() {
       //console.log(filteredData);
       setAPIData(filteredData);
       setTotalCount(itemsCount);
-      // setCurrentPage(1);
       setAPIError(null);
     } catch (e: any) {
       let status = e.request.status;

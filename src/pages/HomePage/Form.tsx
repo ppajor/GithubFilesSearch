@@ -30,9 +30,9 @@ function Form({ error, inputsValue, onValidation, options, setInputsValue, setCu
   };
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
     setCurrentPage(1);
     onValidation();
+    e.preventDefault();
   };
 
   return (
