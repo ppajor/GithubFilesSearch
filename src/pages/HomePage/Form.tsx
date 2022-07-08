@@ -9,6 +9,8 @@ interface Props {
   inputsValue: Inputs;
   onValidation: () => void;
   options: Option[];
+  storagePath: string;
+  setDefaultValues: () => void;
   setInputsValue: React.Dispatch<React.SetStateAction<Inputs>>;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -24,7 +26,16 @@ interface Inputs {
   language: string;
 }
 
-function Form({ error, inputsValue, onValidation, options, setInputsValue, setCurrentPage }: Props) {
+function Form({
+  error,
+  inputsValue,
+  onValidation,
+  options,
+  storagePath,
+  setDefaultValues,
+  setInputsValue,
+  setCurrentPage,
+}: Props) {
   const handleOnChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setInputsValue({ ...inputsValue, [e.target.name]: e.target.value });
   };
@@ -59,7 +70,14 @@ function Form({ error, inputsValue, onValidation, options, setInputsValue, setCu
         options={options}
         onChange={(e) => handleOnChange(e)}
       />
-
+      <input
+        type="reset"
+        value="Resetuj filtry"
+        onClick={() => {
+          localStorage.removeItem(storagePath);
+          setDefaultValues();
+        }}
+      />
       {error && <ErrorMessage message={error} />}
       <CustomButton value="Search file" />
     </form>

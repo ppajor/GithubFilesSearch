@@ -103,6 +103,10 @@ function HomePage() {
     }
   };
 
+  const clearForm = () => {
+    setInputsValue(initialInputsValue);
+  };
+
   return (
     <div className={styles.container}>
       <Hero />
@@ -110,8 +114,10 @@ function HomePage() {
         error={APIError}
         inputsValue={inputsValue}
         options={options}
+        storagePath={filtersPath}
         onValidation={handleData}
         setCurrentPage={setCurrentPage}
+        setDefaultValues={clearForm}
         setInputsValue={setInputsValue}
       />
       <hr />

@@ -9,4 +9,14 @@ form {
     width: 40%;
     margin-left: auto;
   }
+
+  input[type="reset"] {
+    padding: 8px 8px;
+    margin-top: 8px;
+    border: none;
+    text-decoration: none;
+    color: $gray;
+    border-radius: 4px;
+    cursor: pointer;
+  }
 }
