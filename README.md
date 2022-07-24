@@ -1,4 +1,4 @@
-<a href="https://github.com/ppajor/GithubFilesSearch">Live demo</a>
+<a href="https://astounding-chaja-76a044.netlify.app/">Live demo</a>
 
 # Getting Started with Create React App
 
